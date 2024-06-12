@@ -1,0 +1,25 @@
+Parameters:
+  KeyName:
+    Description: The key pair name you use to SSH into your instances
+    Type: 'AWS::EC2::KeyPair::KeyName'
+Resources:
+  AutomatedInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      SecurityGroups:
+        - !Ref AutomatedSecurityGroup
+      KeyName: !Ref KeyName
+      ImageId: ami-9887c6e7
+      InstanceType: 't2.micro'
+      Tags:
+        - Key: 'Name'
+          Value: 'automated-ec2'
+  AutomatedSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
